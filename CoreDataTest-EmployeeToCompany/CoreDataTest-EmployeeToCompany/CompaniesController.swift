@@ -12,9 +12,18 @@ import CoreData
 
 protocol CreateCompanyControllerDelegate{
     func didAddCompany(company: Company)
+    func didEditCompany(company: Company)
 }
 
 class CompaniesController: UITableViewController, CreateCompanyControllerDelegate {
+    
+    func didEditCompany(company: Company) {
+        
+        let destRow = companies.index(of: company)  //Does NOT auto-fill
+        let destIndex = IndexPath(row: destRow ?? 0, section: 0)
+        tableView.reloadRows(at: [destIndex], with: .middle)
+    }
+    
     
     func didAddCompany(company: Company) {
         companies.append(company)
@@ -66,36 +75,33 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
 
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") {[unowned self] (_, indexPath) in
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete") {[unowned self] (_, indexPath) in
             let company = self.companies[indexPath.row]
-            
             self.companies.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .left)
-            
-            
             let context = CoreDataManager.shared.persistentContainer.viewContext
-            
             context.delete(company)
-            
             do {
             try context.save()
             } catch let saveErr {
                 print("Unable to save deletion changes \(saveErr)")
             }
-            
         }
         
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit", handler: editHandlerFucntion)
         
-        let editAction = UITableViewRowAction(style: .normal, title: "Edit") {[unowned self] (_, indexPath) in
-            let company = self.companies[indexPath.row]
-            print("Editing \(company.name ?? "")")
-        }
-        
-        editAction.backgroundColor = .blue
-        
+        deleteAction.backgroundColor = .lightRed
+        editAction.backgroundColor = .darkBlue
         return [deleteAction, editAction]
     }
     
+    private func editHandlerFucntion(action: UITableViewRowAction, indexPath: IndexPath){
+        let editCompanyController = CreateCompanyController()
+        editCompanyController.delegate = self
+        editCompanyController.company = companies[indexPath.row]
+        let navCompanyController = CustomNavigationController(rootViewController: editCompanyController)
+        present(navCompanyController, animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
