@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class CreateCompanyController: UIViewController{
     
@@ -67,7 +68,7 @@ class CreateCompanyController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.yellow
+        view.backgroundColor = UIColor.darkBlue
         setupNavBar()
         setupUI()
     }
@@ -81,9 +82,30 @@ class CreateCompanyController: UIViewController{
     
     @objc private func handleSave(){
         print("SAVE SAVE SAVE")
+        
+        
+        let persistentContainer = NSPersistentContainer(name: "CoreDataFile")                           //"CoreDataFile" <---- name of file
+        persistentContainer.loadPersistentStores { (storeDescription, err) in
+            if let err = err {
+                fatalError("UNABLE TO LOAD STORE FAILED \(err)")
+            }
+        }
+        
+        let context = persistentContainer.viewContext
+        let company = NSEntityDescription.insertNewObject(forEntityName: "Company", into: context)      //"Company" <--- name of entity
+        company.setValue(nameTextField.text ?? "", forKey: "name")                                      //"Name" <--- name of attribute
+        
+        do {
+        try context.save()
+        } catch let saveErr {
+            print("Unable to save new company to Core Data \(saveErr)")
+        }
+        
+        
+        
         self.dismiss(animated: true, completion: {
-            let newCompany = Company(name: self.nameTextField.text ?? "", founded: Date())
-            self.delegate?.didAddCompany(company: newCompany)
+//            let newCompany = Company(name: self.nameTextField.text ?? "", founded: Date())
+//            self.delegate?.didAddCompany(company: newCompany)
         })
     }
 }

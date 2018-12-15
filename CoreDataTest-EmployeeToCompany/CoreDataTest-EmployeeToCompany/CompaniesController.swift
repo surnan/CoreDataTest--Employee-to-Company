@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 
 protocol CreateCompanyControllerDelegate{
@@ -15,7 +16,12 @@ protocol CreateCompanyControllerDelegate{
 
 class CompaniesController: UITableViewController, CreateCompanyControllerDelegate {
     func didAddCompany(company: Company) {
-        companies.append(Company(name: company.name, founded: Date()))
+//        companies.append(Company(name: company.name, founded: Date()))\
+        
+        
+        
+        
+        
         let destIndexPath = IndexPath(row: companies.count - 1, section: 0)
         tableView.insertRows(at: [destIndexPath], with: .left)
     }
@@ -23,12 +29,8 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
 
     let tableID = "asdfpoiu"
 
-    var companies = [
-    Company(name: "Google", founded: Date()),
-    Company(name: "Apple", founded: Date()),
-    Company(name: "Microsoft", founded: Date())
-    ]
     
+    var companies = [Company]()
     
     func setupNavigationStyle(){
         navigationItem.title = "Companies"
@@ -70,6 +72,10 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fetchCompanies()
+        
+        
         tableView.backgroundColor = UIColor.darkBlue
 //        tableView.separatorStyle = .none  //remove lines from every row.  Even the blank rows that don't have cell data (ex: numberOfReturns = 2)
         tableView.separatorColor = .white
@@ -77,5 +83,33 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableID)
         setupNavigationStyle()
     }
+    
+    
+    private func fetchCompanies(){
+        let persistentContainer = NSPersistentContainer(name: "CoreDataFile")                           //"CoreDataFile" <---- name of file
+        persistentContainer.loadPersistentStores { (storeDescription, err) in
+            if let err = err {
+                fatalError("UNABLE TO LOAD STORE FAILED \(err)")
+            }
+        }
+        
+        let context = persistentContainer.viewContext
+
+        let fetchRequest = NSFetchRequest<Company>(entityName: "Company")       //Does <Company> === as! Company     ?????
+        
+        do {
+        try companies = context.fetch(fetchRequest)
+            
+            companies.forEach{print("name = \($0.name ?? "")")}
+//            print(companies)
+        } catch let err {
+            print("Unable to load [Companies] -- \(err)")
+        }
+    }
+    
+    
+    
+    
+    
 }
 
