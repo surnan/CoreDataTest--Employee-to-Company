@@ -21,7 +21,7 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         let destIndexPath = IndexPath(row: companies.count - 1, section: 0)
         tableView.insertRows(at: [destIndexPath], with: .left)
     }
-    
+
     
     let tableID = "asdfpoiu"
     var companies = [Company]()
@@ -61,6 +61,39 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
+    }
+    
+
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") {[unowned self] (_, indexPath) in
+            let company = self.companies[indexPath.row]
+            
+            self.companies.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .left)
+            
+            
+            let context = CoreDataManager.shared.persistentContainer.viewContext
+            
+            context.delete(company)
+            
+            do {
+            try context.save()
+            } catch let saveErr {
+                print("Unable to save deletion changes \(saveErr)")
+            }
+            
+        }
+        
+        
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit") {[unowned self] (_, indexPath) in
+            let company = self.companies[indexPath.row]
+            print("Editing \(company.name ?? "")")
+        }
+        
+        editAction.backgroundColor = .blue
+        
+        return [deleteAction, editAction]
     }
     
     
