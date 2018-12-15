@@ -15,21 +15,15 @@ protocol CreateCompanyControllerDelegate{
 }
 
 class CompaniesController: UITableViewController, CreateCompanyControllerDelegate {
+    
     func didAddCompany(company: Company) {
-//        companies.append(Company(name: company.name, founded: Date()))\
-        
-        
-        
-        
-        
+        companies.append(company)
         let destIndexPath = IndexPath(row: companies.count - 1, section: 0)
         tableView.insertRows(at: [destIndexPath], with: .left)
     }
     
-
-    let tableID = "asdfpoiu"
-
     
+    let tableID = "asdfpoiu"
     var companies = [Company]()
     
     func setupNavigationStyle(){
@@ -72,10 +66,7 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         fetchCompanies()
-        
-        
         tableView.backgroundColor = UIColor.darkBlue
 //        tableView.separatorStyle = .none  //remove lines from every row.  Even the blank rows that don't have cell data (ex: numberOfReturns = 2)
         tableView.separatorColor = .white
@@ -86,15 +77,7 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
     
     
     private func fetchCompanies(){
-        let persistentContainer = NSPersistentContainer(name: "CoreDataFile")                           //"CoreDataFile" <---- name of file
-        persistentContainer.loadPersistentStores { (storeDescription, err) in
-            if let err = err {
-                fatalError("UNABLE TO LOAD STORE FAILED \(err)")
-            }
-        }
-        
-        let context = persistentContainer.viewContext
-
+        let context = CoreDataManager.shared.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Company>(entityName: "Company")       //Does <Company> === as! Company     ?????
         
         do {
@@ -106,10 +89,5 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
             print("Unable to load [Companies] -- \(err)")
         }
     }
-    
-    
-    
-    
-    
 }
 

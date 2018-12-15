@@ -13,8 +13,6 @@ class CreateCompanyController: UIViewController{
     
     var delegate: CreateCompanyControllerDelegate?
     
-    
-    
     let nameLabel: UILabel = {
        let label = UILabel()
         label.text = "Name"
@@ -28,10 +26,6 @@ class CreateCompanyController: UIViewController{
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
-    
-    
-    
     
     private func setupNavBar(){
         navigationItem.title = "Create Company"
@@ -60,9 +54,6 @@ class CreateCompanyController: UIViewController{
             nameTextField.bottomAnchor.constraint(equalTo: nameLabel.bottomAnchor),
             nameTextField.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 10),
             nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            
-            
-            
             ])
     }
     
@@ -74,38 +65,24 @@ class CreateCompanyController: UIViewController{
     }
     
     
-    
-    
     @objc private func handleCancel(){
         self.dismiss(animated: true, completion: nil)
     }
     
     @objc private func handleSave(){
-        print("SAVE SAVE SAVE")
-        
-        
-        let persistentContainer = NSPersistentContainer(name: "CoreDataFile")                           //"CoreDataFile" <---- name of file
-        persistentContainer.loadPersistentStores { (storeDescription, err) in
-            if let err = err {
-                fatalError("UNABLE TO LOAD STORE FAILED \(err)")
-            }
-        }
-        
-        let context = persistentContainer.viewContext
+        let context = CoreDataManager.shared.persistentContainer.viewContext
         let company = NSEntityDescription.insertNewObject(forEntityName: "Company", into: context)      //"Company" <--- name of entity
         company.setValue(nameTextField.text ?? "", forKey: "name")                                      //"Name" <--- name of attribute
         
         do {
         try context.save()
+            self.dismiss(animated: true, completion: {
+                self.delegate?.didAddCompany(company: company as! Company)
+                //            let newCompany = Company(name: self.nameTextField.text ?? "", founded: Date())
+                //            self.delegate?.didAddCompany(company: newCompany)
+            })
         } catch let saveErr {
             print("Unable to save new company to Core Data \(saveErr)")
         }
-        
-        
-        
-        self.dismiss(animated: true, completion: {
-//            let newCompany = Company(name: self.nameTextField.text ?? "", founded: Date())
-//            self.delegate?.didAddCompany(company: newCompany)
-        })
     }
 }
