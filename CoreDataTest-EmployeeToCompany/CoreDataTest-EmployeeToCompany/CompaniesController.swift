@@ -8,34 +8,39 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class CompaniesController: UITableViewController {
 
     let tableID = "asdfpoiu"
+
+    let companies = [
+    Company(name: "Google", founded: Date()),
+    Company(name: "Apple", founded: Date()),
+    Company(name: "Microsoft", founded: Date())
+    ]
     
     
     func setupNavigationStyle(){
         navigationItem.title = "Companies"
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = UIColor.lightRed
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus"), style: .plain, target: self, action: #selector(handleAddCompany))
     }
     
     
     @objc func handleAddCompany(){
-        print("Adding Company")
+        let newVC = CustomNavigationController(rootViewController: CreateCompanyController())
+        present(newVC, animated: true, completion: nil)
     }
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return companies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableID, for: indexPath)
         cell.backgroundColor = .teal
+        cell.textLabel?.textColor = .white
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        cell.textLabel?.text = companies[indexPath.item].name
         return cell
     }
     
@@ -53,7 +58,6 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = UIColor.darkBlue
-        
 //        tableView.separatorStyle = .none  //remove lines from every row.  Even the blank rows that don't have cell data (ex: numberOfReturns = 2)
         tableView.separatorColor = .white
         tableView.tableFooterView = UIView()  //lets you keep the lines ONLY between your non-nil (valid) tableViewCells (ex: numberOfReturns = 2).
