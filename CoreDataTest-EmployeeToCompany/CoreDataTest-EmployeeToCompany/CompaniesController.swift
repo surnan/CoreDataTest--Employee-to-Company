@@ -38,10 +38,38 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
     func setupNavigationStyle(){
         navigationItem.title = "Companies"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus"), style: .plain, target: self, action: #selector(handleAddCompany))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(handleReset))
     }
     
     
-    @objc func handleAddCompany(){
+    
+    @objc private func handleReset(){
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        
+        //slow way --> get context & run context.delete on each
+        //Entity.fetchRequest used below is supplied by default with Core Data
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: Company.fetchRequest())
+        
+        do {
+            try context.execute(batchDeleteRequest)
+            //            companies.removeAll()     <--- doesn't give you the chance to show animation
+            //            tableView.reloadData()  <--- doesn't give you the chance to show animation
+            
+            var indexPathsToRemove = [IndexPath]()
+            for (index, _) in companies.enumerated() {
+                let tempIndexPath = IndexPath(row: index, section: 0)
+                indexPathsToRemove.append(tempIndexPath)
+            }
+            
+            self.companies.removeAll()
+            tableView.deleteRows(at: indexPathsToRemove, with: .fade)
+        } catch let deleteAllErr {
+            print("Batch Delete Error: \(deleteAllErr)")
+        }
+    }
+    
+    
+    @objc private func handleAddCompany(){
         let newCreateCompanyContoller = CreateCompanyController()
         newCreateCompanyContoller.delegate = self
         let newVC = CustomNavigationController(rootViewController: newCreateCompanyContoller)
@@ -70,10 +98,17 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         } else {
             cell.textLabel?.text = "\(company.name ?? "")"
         }
+        
+        
+        cell.imageView?.image =  #imageLiteral(resourceName: "select_photo_empty")
+        
+        if let  tempImage = company.imageData, let companyImage = UIImage(data: tempImage, scale: 0.8) {
+            cell.imageView?.image = companyImage
+        }
+        
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         view.backgroundColor = .lightBlue
         return view
@@ -99,14 +134,29 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
             }
         }
         
-        let editAction = UITableViewRowAction(style: .normal, title: "Edit", handler: editHandlerFucntion)
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit", handler: editHandlerFunction)
         
         deleteAction.backgroundColor = .lightRed
         editAction.backgroundColor = .darkBlue
         return [deleteAction, editAction]
     }
     
-    private func editHandlerFucntion(action: UITableViewRowAction, indexPath: IndexPath){
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return companies.count == 0 ?  300  : 0
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.attributedText = NSAttributedString(string: "No Companies Defined \n Click Plus to insert", attributes: [NSAttributedString.Key.font: UIFont(name: "Papyrus", size: 25)!,
+                                                                                                                       NSAttributedString.Key.foregroundColor : UIColor.yellow,
+                                                                                                                        ])
+        label.textAlignment = .center
+        return label
+    }
+    
+    private func editHandlerFunction(action: UITableViewRowAction, indexPath: IndexPath){
         let editCompanyController = CreateCompanyController()
         editCompanyController.delegate = self
         editCompanyController.company = companies[indexPath.row]
