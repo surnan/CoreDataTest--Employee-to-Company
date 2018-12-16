@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class CreateCompanyController: UIViewController{
+class CreateCompanyController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     var delegate: CreateCompanyControllerDelegate?
     var company: Company? {  //passed from editRowAction
@@ -18,7 +18,16 @@ class CreateCompanyController: UIViewController{
             datePicker.date = company?.founded ?? Date()
         }
     }
-    
+
+    lazy var companyImageView: UIImageView = {  // "LET"  === [self = nil]
+       let imageView = UIImageView(image: #imageLiteral(resourceName: "select_photo_empty"))
+//        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectPhoto)))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name"
@@ -45,29 +54,33 @@ class CreateCompanyController: UIViewController{
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(handleSave))
     }
     
-    
     private func setupUI(){
         let lightBlueBackGroundView = UIView();
         lightBlueBackGroundView.backgroundColor = .lightBlue
         lightBlueBackGroundView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(lightBlueBackGroundView)
-        [nameLabel, nameTextField, datePicker].forEach{lightBlueBackGroundView.addSubview($0)}
+        [nameLabel, nameTextField, datePicker, companyImageView].forEach{lightBlueBackGroundView.addSubview($0)}
         
         NSLayoutConstraint.activate([
             lightBlueBackGroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             lightBlueBackGroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             lightBlueBackGroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            lightBlueBackGroundView.heightAnchor.constraint(equalToConstant: 250),
+            lightBlueBackGroundView.heightAnchor.constraint(equalToConstant: 450),
             
-            nameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            companyImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
+            companyImageView.heightAnchor.constraint(equalToConstant: 75),
+            companyImageView.widthAnchor.constraint(equalToConstant: 75),
+            companyImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            nameLabel.topAnchor.constraint(equalTo: companyImageView.bottomAnchor, constant: 8),
+            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             nameLabel.widthAnchor.constraint(equalToConstant: 100),
             nameLabel.heightAnchor.constraint(equalToConstant: 50),
+            
             nameTextField.topAnchor.constraint(equalTo: nameLabel.topAnchor),
             nameTextField.bottomAnchor.constraint(equalTo: nameLabel.bottomAnchor),
             nameTextField.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 10),
             nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
             
             datePicker.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
             datePicker.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
@@ -118,6 +131,36 @@ class CreateCompanyController: UIViewController{
             saveCompanyChanges()
         }
     }
+    
+    @objc private func handleSelectPhoto(){
+        print("Photo selected")
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true  //Pre-requisite for info[.editedImage]
+        present(imagePickerController, animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print(info)
+        
+        
+        if let editedImage = info[.editedImage] as? UIImage {
+            companyImageView.image = editedImage
+        } else if let originalImage = info[.originalImage] as? UIImage {
+                companyImageView.image = originalImage
+        }
+
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
+    
+    
     
     private func saveCompanyChanges(){
         let context = CoreDataManager.shared.persistentContainer.viewContext
