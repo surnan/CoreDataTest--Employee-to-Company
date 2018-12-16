@@ -17,6 +17,9 @@
 		849F6CC321C544F00049B229 /* CreateCompanyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CC221C544F00049B229 /* CreateCompanyController.swift */; };
 		849F6CC621C573AF0049B229 /* CoreDataFile.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CC421C573AF0049B229 /* CoreDataFile.xcdatamodeld */; };
 		849F6CC821C5889A0049B229 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CC721C5889A0049B229 /* CoreDataManager.swift */; };
+		849F6CCC21C6BF520049B229 /* CompanyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CCB21C6BF520049B229 /* CompanyCell.swift */; };
+		849F6CCF21C6CC9A0049B229 /* CompaniesController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CCE21C6CC9A0049B229 /* CompaniesController+TableView.swift */; };
+		849F6CD121C6CD100049B229 /* CompaniesController+CreateCompaniesControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CD021C6CD100049B229 /* CompaniesController+CreateCompaniesControllerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,9 @@
 		849F6CC221C544F00049B229 /* CreateCompanyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCompanyController.swift; sourceTree = "<group>"; };
 		849F6CC521C573AF0049B229 /* CoreDataFile.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataFile.xcdatamodel; sourceTree = "<group>"; };
 		849F6CC721C5889A0049B229 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		849F6CCB21C6BF520049B229 /* CompanyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyCell.swift; sourceTree = "<group>"; };
+		849F6CCE21C6CC9A0049B229 /* CompaniesController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompaniesController+TableView.swift"; sourceTree = "<group>"; };
+		849F6CD021C6CD100049B229 /* CompaniesController+CreateCompaniesControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompaniesController+CreateCompaniesControllerDelegate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,9 +70,9 @@
 		849F6CA521C459460049B229 /* CoreDataTest-EmployeeToCompany */ = {
 			isa = PBXGroup;
 			children = (
-				849F6CA821C459460049B229 /* CompaniesController.swift */,
-				849F6CC221C544F00049B229 /* CreateCompanyController.swift */,
+				849F6CCD21C6C0640049B229 /* Companies */,
 				849F6CB821C469E50049B229 /* Extensions.swift */,
+				849F6CC221C544F00049B229 /* CreateCompanyController.swift */,
 				849F6CBA21C46AAA0049B229 /* CustomNavigationController.swift */,
 				849F6CB221C459490049B229 /* Info.plist */,
 				849F6CCA21C5B6640049B229 /* Core Data */,
@@ -93,6 +99,17 @@
 				849F6CC721C5889A0049B229 /* CoreDataManager.swift */,
 			);
 			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		849F6CCD21C6C0640049B229 /* Companies */ = {
+			isa = PBXGroup;
+			children = (
+				849F6CCB21C6BF520049B229 /* CompanyCell.swift */,
+				849F6CA821C459460049B229 /* CompaniesController.swift */,
+				849F6CCE21C6CC9A0049B229 /* CompaniesController+TableView.swift */,
+				849F6CD021C6CD100049B229 /* CompaniesController+CreateCompaniesControllerDelegate.swift */,
+			);
+			path = Companies;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +186,9 @@
 				849F6CBB21C46AAA0049B229 /* CustomNavigationController.swift in Sources */,
 				849F6CB921C469E50049B229 /* Extensions.swift in Sources */,
 				849F6CA921C459460049B229 /* CompaniesController.swift in Sources */,
+				849F6CCF21C6CC9A0049B229 /* CompaniesController+TableView.swift in Sources */,
+				849F6CCC21C6BF520049B229 /* CompanyCell.swift in Sources */,
+				849F6CD121C6CD100049B229 /* CompaniesController+CreateCompaniesControllerDelegate.swift in Sources */,
 				849F6CC621C573AF0049B229 /* CoreDataFile.xcdatamodeld in Sources */,
 				849F6CA721C459460049B229 /* AppDelegate.swift in Sources */,
 				849F6CC821C5889A0049B229 /* CoreDataManager.swift in Sources */,

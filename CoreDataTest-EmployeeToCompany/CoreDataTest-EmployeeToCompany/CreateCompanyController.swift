@@ -22,16 +22,16 @@ class CreateCompanyController: UIViewController, UIImagePickerControllerDelegate
             setupCircularImage()
         }
     }
-
+    
     lazy var companyImageView: UIImageView = {  // "LET"  === [self = nil]
-       let imageView = UIImageView(image: #imageLiteral(resourceName: "select_photo_empty"))
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "select_photo_empty"))
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectPhoto)))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
+    
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name"
@@ -47,7 +47,7 @@ class CreateCompanyController: UIViewController, UIImagePickerControllerDelegate
     }()
     
     let datePicker: UIDatePicker = {
-       let dp = UIDatePicker()
+        let dp = UIDatePicker()
         dp.datePickerMode = .date
         dp.translatesAutoresizingMaskIntoConstraints = false
         return dp
@@ -116,11 +116,9 @@ class CreateCompanyController: UIViewController, UIImagePickerControllerDelegate
         company.setValue(nameTextField.text ?? "", forKey: "name")                                      //"Name" <--- name of attribute
         company.setValue(datePicker.date, forKey: "founded")
         
-        
         if let imageData = companyImageView.image?.jpegData(compressionQuality: 0.8) {
-                company.setValue(imageData, forKey: "imageData")
+            company.setValue(imageData, forKey: "imageData")
         }
-
         do {
             try context.save()
             self.dismiss(animated: true, completion: {
@@ -164,18 +162,13 @@ class CreateCompanyController: UIViewController, UIImagePickerControllerDelegate
         if let editedImage = info[.editedImage] as? UIImage {
             companyImageView.image = editedImage
         } else if let originalImage = info[.originalImage] as? UIImage {
-                companyImageView.image = originalImage
+            companyImageView.image = originalImage
         }
         
         setupCircularImage()
         
         dismiss(animated: true, completion: nil)
     }
-    
-    
-    
-    
-    
     
     private func saveCompanyChanges(){
         let context = CoreDataManager.shared.persistentContainer.viewContext

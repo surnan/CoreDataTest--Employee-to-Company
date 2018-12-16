@@ -21,29 +21,30 @@ struct CoreDataManager {
         }
         return container
     }()
+    
+//    func fetchCompanies() -> [Company]{
+//        let context = persistentContainer.viewContext  //persistenContainer defined above
+//        let fetchRequest = NSFetchRequest<Company>(entityName: "Company")       //Does <Company> === as! Company     ?????
+//        var companies = [Company]()
+//        do {
+//            try companies = context.fetch(fetchRequest)
+//        } catch let err {
+//            fatalError("Unable to fetch companies -- \(err)")
+//        }
+//        return companies
+//    }
+    
+    
+    func fetchCompanies() -> ([Company], Error?){
+        let context = persistentContainer.viewContext  //persistenContainer defined above
+        let fetchRequest = NSFetchRequest<Company>(entityName: "Company")       //Does <Company> === as! Company     ?????
+        var companies = [Company]()
+        do {
+            try companies = context.fetch(fetchRequest)
+            return (companies, nil)
+        } catch let err {
+            print("Unable to fetch companies -- \(err)")
+            return ([Company](), err)
+        }
+    }
 }
-
-
-/*
- let persistentContainer = NSPersistentContainer(name: "CoreDataFile")                           //"CoreDataFile" <---- name of file
- persistentContainer.loadPersistentStores { (storeDescription, err) in
- if let err = err {
- fatalError("UNABLE TO LOAD STORE FAILED \(err)")
- }
- }
- 
- let context = persistentContainer.viewContext
- let company = NSEntityDescription.insertNewObject(forEntityName: "Company", into: context)      //"Company" <--- name of entity
- company.setValue(nameTextField.text ?? "", forKey: "name")                                      //"Name" <--- name of attribute
- 
- do {
- try context.save()
- self.dismiss(animated: true, completion: {
- self.delegate?.didAddCompany(company: company as! Company)
- //            let newCompany = Company(name: self.nameTextField.text ?? "", founded: Date())
- //            self.delegate?.didAddCompany(company: newCompany)
- })
- } catch let saveErr {
- print("Unable to save new company to Core Data \(saveErr)")
- }
- */
