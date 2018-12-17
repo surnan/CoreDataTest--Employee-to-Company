@@ -26,20 +26,25 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
     var company: Company?
     var employees = [Employee]()
     let cellID = "asdfasdfasdf"
+
     
-    private func fetchEmployees(){
-        print("Fetching Employees")
-        
+    private func fetchAllEmployees(){
+        //ALL employees from ALL companies
         let context = CoreDataManager.shared.persistentContainer.viewContext
-        
         let request = NSFetchRequest<Employee>(entityName: "Employee")
-        
         do {
             employees = try context.fetch(request)
             employees.forEach{print($0.name ?? "")}
         } catch let fetchErr {
             print("Unable to fetch employees \(fetchErr)")
         }
+    }
+    
+    
+    private func fetchEmployees(){
+        guard let companyEmployees = company?.employees?.allObjects as? [Employee] else {return}
+        //employees = company?.employees //NSSet vs [Employee]
+        employees = companyEmployees
     }
     
     
@@ -61,6 +66,7 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
         
         let newVC = CreateEmployeeController()
         newVC.delegate = self
+        newVC.company = company
         let newNav = CustomNavigationController(rootViewController: newVC)
         present(newNav, animated: true, completion: nil)
     }
@@ -74,7 +80,10 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID)
-        cell?.textLabel?.text = employees[indexPath.item].name
+        
+        let employee = employees[indexPath.item]
+        
+        cell?.textLabel?.text = "\(employee.name ?? "")...taxId = \(employee.employeeinformation?.taxid ?? "")"
         cell?.backgroundColor = UIColor.teal
         cell?.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         cell?.textLabel?.textColor = UIColor.white

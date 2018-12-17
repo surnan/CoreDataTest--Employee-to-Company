@@ -84,8 +84,8 @@
 			isa = PBXGroup;
 			children = (
 				849F6CCD21C6C0640049B229 /* Companies */,
-				84FF0D3021C80CBC00DB5A25 /* CreateEmployeeController.swift */,
 				849F6CC221C544F00049B229 /* CreateCompanyController.swift */,
+				84FF0D3021C80CBC00DB5A25 /* CreateEmployeeController.swift */,
 				849F6CF921C808240049B229 /* EmployeesController.swift */,
 				847D4AE321C82FC7008766A2 /* Helpers */,
 				849F6CB221C459490049B229 /* Info.plist */,

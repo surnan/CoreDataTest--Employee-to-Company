@@ -11,6 +11,7 @@ import UIKit
 class CreateEmployeeController:UIViewController {
     
     var delegate: CreateEmployeeControllerDelegate?
+    var company: Company?
     
     let nameLabel: UILabel = {
         let label = UILabel()
@@ -59,10 +60,10 @@ class CreateEmployeeController:UIViewController {
         var currentEmployee: Employee?
         var currentError: Error?
 
-        guard let name = nameTextField.text else {return}
+        guard let name = nameTextField.text, let currentCompany = company  else {return}
         
         
-        (currentEmployee, currentError) = CoreDataManager.shared.createEmployee(name: name)
+        (currentEmployee, currentError) = CoreDataManager.shared.createEmployee(name: name, company: currentCompany)
         
         if let error = currentError {
             print("Error saving employee: \(error)")

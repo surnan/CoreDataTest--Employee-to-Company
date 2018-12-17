@@ -50,11 +50,23 @@ struct CoreDataManager {
     
     
     
-    func createEmployee(name: String) -> (Employee?, Error?){
+    func createEmployee(name: String, company: Company) -> (Employee?, Error?){
         let context = persistentContainer.viewContext
         let employee = NSEntityDescription.insertNewObject(forEntityName: "Employee", into: context) as! Employee
         
+        
+        employee.company = company
+        
+        
+        
         employee.setValue(name, forKey: "name")
+        
+        let employeeInformation = NSEntityDescription.insertNewObject(forEntityName: "EmployeeInformation", into: context) as! EmployeeInformation
+//        employeeInformation.setValue("456", forKey: "taxId")  <--- always works
+        employeeInformation.taxid = "456"       //<-- works because of casting above--> 'as! EmployeeInformation'
+        
+        employee.employeeinformation = employeeInformation  //OOOOOOPSIE  //To assign the data back to CoreData
+        
         
         do {
             try context.save()
