@@ -10,6 +10,8 @@ import UIKit
 
 class CreateEmployeeController:UIViewController {
     
+    var delegate: CreateEmployeeControllerDelegate?
+    
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name"
@@ -54,13 +56,21 @@ class CreateEmployeeController:UIViewController {
     
     @objc private func handleSaveEmployee(){
 
-        if let name = nameTextField.text {
-            let error = CoreDataManager.shared.createEmployee(name: name)
-            if let error = error {
-                //UNABLE TO SAVE EMPLOYEE
-                print(error)
-            }
+        var currentEmployee: Employee?
+        var currentError: Error?
+
+        guard let name = nameTextField.text else {return}
+        
+        
+        (currentEmployee, currentError) = CoreDataManager.shared.createEmployee(name: name)
+        
+        if let error = currentError {
+            print("Error saving employee: \(error)")
+            dismiss(animated: true, completion: nil)
+        } else if let employee = currentEmployee {
+            dismiss(animated: true, completion: {
+                self.delegate?.didAddEmployee(employee: employee)
+                })
         }
-        dismiss(animated: true, completion: nil)
     }
 }

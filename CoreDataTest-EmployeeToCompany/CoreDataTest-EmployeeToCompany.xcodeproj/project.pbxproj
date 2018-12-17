@@ -55,6 +55,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		847D4AE321C82FC7008766A2 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				849F6CBA21C46AAA0049B229 /* CustomNavigationController.swift */,
+				849F6CB821C469E50049B229 /* Extensions.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		849F6C9A21C459460049B229 = {
 			isa = PBXGroup;
 			children = (
@@ -75,11 +84,10 @@
 			isa = PBXGroup;
 			children = (
 				849F6CCD21C6C0640049B229 /* Companies */,
-				849F6CF921C808240049B229 /* EmployeesController.swift */,
-				849F6CB821C469E50049B229 /* Extensions.swift */,
 				84FF0D3021C80CBC00DB5A25 /* CreateEmployeeController.swift */,
 				849F6CC221C544F00049B229 /* CreateCompanyController.swift */,
-				849F6CBA21C46AAA0049B229 /* CustomNavigationController.swift */,
+				849F6CF921C808240049B229 /* EmployeesController.swift */,
+				847D4AE321C82FC7008766A2 /* Helpers */,
 				849F6CB221C459490049B229 /* Info.plist */,
 				849F6CCA21C5B6640049B229 /* Core Data */,
 				849F6CC921C5B5E50049B229 /* Support Files */,
