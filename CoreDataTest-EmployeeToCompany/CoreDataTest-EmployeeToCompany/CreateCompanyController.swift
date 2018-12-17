@@ -59,18 +59,10 @@ class CreateCompanyController: UIViewController, UIImagePickerControllerDelegate
     }
     
     private func setupUI(){
-        let lightBlueBackGroundView = UIView();
-        lightBlueBackGroundView.backgroundColor = .lightBlue
-        lightBlueBackGroundView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(lightBlueBackGroundView)
-        [nameLabel, nameTextField, datePicker, companyImageView].forEach{lightBlueBackGroundView.addSubview($0)}
+        let blueView = setupLightBlueBackgroundView(height: 350)
+        [nameLabel, nameTextField, datePicker, companyImageView].forEach{blueView.addSubview($0)}
         
         NSLayoutConstraint.activate([
-            lightBlueBackGroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            lightBlueBackGroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            lightBlueBackGroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            lightBlueBackGroundView.heightAnchor.constraint(equalToConstant: 350),
-            
             companyImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
             companyImageView.heightAnchor.constraint(equalToConstant: 75),
             companyImageView.widthAnchor.constraint(equalToConstant: 75),
@@ -88,7 +80,7 @@ class CreateCompanyController: UIViewController, UIImagePickerControllerDelegate
             
             datePicker.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
             datePicker.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            datePicker.bottomAnchor.constraint(equalTo: lightBlueBackGroundView.bottomAnchor),
+            datePicker.bottomAnchor.constraint(equalTo: blueView.bottomAnchor),
             datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             ])
     }

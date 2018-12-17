@@ -34,6 +34,21 @@ extension UIViewController {
     @objc func handleCancelModal(){
         dismiss(animated: true, completion: nil)
     }
+    
+    func setupLightBlueBackgroundView(height: CGFloat) -> UIView{
+        let lightBlueBackGroundView = UIView()
+        lightBlueBackGroundView.backgroundColor = .lightBlue
+        lightBlueBackGroundView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(lightBlueBackGroundView)
+        
+        NSLayoutConstraint.activate([
+            lightBlueBackGroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            lightBlueBackGroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            lightBlueBackGroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            lightBlueBackGroundView.heightAnchor.constraint(equalToConstant: height),
+            ])
+     return lightBlueBackGroundView
+    }
 }
 
 
