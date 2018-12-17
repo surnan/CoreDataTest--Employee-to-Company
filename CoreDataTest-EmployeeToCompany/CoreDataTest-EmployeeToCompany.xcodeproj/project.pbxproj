@@ -76,8 +76,8 @@
 			children = (
 				849F6CCD21C6C0640049B229 /* Companies */,
 				849F6CF921C808240049B229 /* EmployeesController.swift */,
-				84FF0D3021C80CBC00DB5A25 /* CreateEmployeeController.swift */,
 				849F6CB821C469E50049B229 /* Extensions.swift */,
+				84FF0D3021C80CBC00DB5A25 /* CreateEmployeeController.swift */,
 				849F6CC221C544F00049B229 /* CreateCompanyController.swift */,
 				849F6CBA21C46AAA0049B229 /* CustomNavigationController.swift */,
 				849F6CB221C459490049B229 /* Info.plist */,
