@@ -23,7 +23,7 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
     
     func setupNavigationStyle(){
         navigationItem.title = "Companies"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus"), style: .plain, target: self, action: #selector(handleAddCompany))
+        setupPlusButtonInNavBar(selector: #selector(handleAdd))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(handleReset))
     }
     
@@ -49,7 +49,7 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
     }
     
     
-    @objc private func handleAddCompany(){
+    @objc private func handleAdd(){
         let newCreateCompanyContoller = CreateCompanyController()
         newCreateCompanyContoller.delegate = self
         let newVC = CustomNavigationController(rootViewController: newCreateCompanyContoller)

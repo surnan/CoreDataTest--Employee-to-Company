@@ -54,7 +54,7 @@ class CreateCompanyController: UIViewController, UIImagePickerControllerDelegate
     }()
     
     private func setupNavBar(){
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(handleCancel))
+        setupCancelButtonInNavBar()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(handleSave))
     }
     
@@ -103,11 +103,6 @@ class CreateCompanyController: UIViewController, UIImagePickerControllerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = company == nil ? "Create Company" : "Edit Company"
-    }
-    
-    
-    @objc private func handleCancel(){
-        self.dismiss(animated: true, completion: nil)
     }
     
     fileprivate func CreateCompany() {

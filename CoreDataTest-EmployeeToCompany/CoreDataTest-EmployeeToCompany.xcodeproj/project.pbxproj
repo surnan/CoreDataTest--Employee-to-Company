@@ -20,6 +20,8 @@
 		849F6CCC21C6BF520049B229 /* CompanyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CCB21C6BF520049B229 /* CompanyCell.swift */; };
 		849F6CCF21C6CC9A0049B229 /* CompaniesController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CCE21C6CC9A0049B229 /* CompaniesController+TableView.swift */; };
 		849F6CD121C6CD100049B229 /* CompaniesController+CreateCompaniesControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CD021C6CD100049B229 /* CompaniesController+CreateCompaniesControllerDelegate.swift */; };
+		849F6CFA21C808240049B229 /* EmployeesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CF921C808240049B229 /* EmployeesController.swift */; };
+		84FF0D3121C80CBC00DB5A25 /* CreateEmployeeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FF0D3021C80CBC00DB5A25 /* CreateEmployeeController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		849F6CCB21C6BF520049B229 /* CompanyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyCell.swift; sourceTree = "<group>"; };
 		849F6CCE21C6CC9A0049B229 /* CompaniesController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompaniesController+TableView.swift"; sourceTree = "<group>"; };
 		849F6CD021C6CD100049B229 /* CompaniesController+CreateCompaniesControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompaniesController+CreateCompaniesControllerDelegate.swift"; sourceTree = "<group>"; };
+		849F6CF921C808240049B229 /* EmployeesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesController.swift; sourceTree = "<group>"; };
+		84FF0D3021C80CBC00DB5A25 /* CreateEmployeeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmployeeController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				849F6CCD21C6C0640049B229 /* Companies */,
+				849F6CF921C808240049B229 /* EmployeesController.swift */,
+				84FF0D3021C80CBC00DB5A25 /* CreateEmployeeController.swift */,
 				849F6CB821C469E50049B229 /* Extensions.swift */,
 				849F6CC221C544F00049B229 /* CreateCompanyController.swift */,
 				849F6CBA21C46AAA0049B229 /* CustomNavigationController.swift */,
@@ -184,11 +190,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				849F6CBB21C46AAA0049B229 /* CustomNavigationController.swift in Sources */,
+				84FF0D3121C80CBC00DB5A25 /* CreateEmployeeController.swift in Sources */,
 				849F6CB921C469E50049B229 /* Extensions.swift in Sources */,
 				849F6CA921C459460049B229 /* CompaniesController.swift in Sources */,
 				849F6CCF21C6CC9A0049B229 /* CompaniesController+TableView.swift in Sources */,
 				849F6CCC21C6BF520049B229 /* CompanyCell.swift in Sources */,
 				849F6CD121C6CD100049B229 /* CompaniesController+CreateCompaniesControllerDelegate.swift in Sources */,
+				849F6CFA21C808240049B229 /* EmployeesController.swift in Sources */,
 				849F6CC621C573AF0049B229 /* CoreDataFile.xcdatamodeld in Sources */,
 				849F6CA721C459460049B229 /* AppDelegate.swift in Sources */,
 				849F6CC821C5889A0049B229 /* CoreDataManager.swift in Sources */,

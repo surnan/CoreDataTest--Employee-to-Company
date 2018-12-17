@@ -75,4 +75,11 @@ extension CompaniesController {
         let navCompanyController = CustomNavigationController(rootViewController: editCompanyController)
         present(navCompanyController, animated: true, completion: nil)
     }
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newVC = EmployeesController()
+        newVC.company = companies[indexPath.item]
+        navigationController?.pushViewController(newVC, animated: true)
+    }
 }
