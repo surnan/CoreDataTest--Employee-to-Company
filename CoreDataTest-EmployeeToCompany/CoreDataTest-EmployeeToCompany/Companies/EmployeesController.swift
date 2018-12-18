@@ -17,6 +17,30 @@ protocol CreateEmployeeControllerDelegate {
 class EmployeesController: UITableViewController, CreateEmployeeControllerDelegate {
     func didAddEmployee(employee: Employee) {
         employees.append(employee)
+        
+        
+        shortNameEmployees = employees.filter({ (employee) -> Bool in
+            if (employee.name?.count)! < 5 {
+                return true
+            }
+            return false
+        })
+        
+        mediumNameEmployees = employees.filter({ (employee) -> Bool in
+            if (employee.name?.count)! >= 5  &&   (employee.name?.count)! <= 6{
+                return true
+            }
+            return false
+        })
+        
+        longNameEmployees = employees.filter({ (employee) -> Bool in
+            if (employee.name?.count)! > 6 {
+                return true
+            }
+            return false
+        })
+        
+        allEmployees = [shortNameEmployees, mediumNameEmployees, longNameEmployees]
         tableView.reloadData()
 //        let insertIndexPath = IndexPath(row: employees.count - 1, section: 0)
 //        tableView.insertRows(at: [insertIndexPath], with: .left)

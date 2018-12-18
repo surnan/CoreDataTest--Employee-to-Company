@@ -78,18 +78,13 @@ class CreateEmployeeController:UIViewController {
     }
     
     @objc private func handleSaveEmployee(){
-        
         var currentEmployee: Employee?
         var currentError: Error?
         
-        
         guard let name = nameTextField.text, let currentCompany = company, let birthdayText = birthdayTextField.text  else {return}
-        
-        
         if birthdayText.isEmpty {
             addAction(title: "Missing Entry", message: "Please enter a birthday")
         }
-        
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
@@ -99,8 +94,6 @@ class CreateEmployeeController:UIViewController {
             addAction(title: "Invalid Entry", message: "Please enter date with format: MM/dd/yyyy")
             return
         }
-        
-        
         
         (currentEmployee, currentError) = CoreDataManager.shared.createEmployee(name: name, birthdayDate: birthdayDate, company: currentCompany)
         
