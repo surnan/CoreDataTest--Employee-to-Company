@@ -17,23 +17,9 @@ extension EmployeesController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID)
-        
         //        let employee = employees[indexPath.item]
         let employee = allEmployees[indexPath.section][indexPath.row]
-        
-        
-//        var labelString = "\(employee.name ?? "")...taxId = \(employee.employeeinformation?.taxid ?? "")"
-//
-//        if let birthdayDate = employee.employeeinformation?.birthday {
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = "MMM dd, yyyy"
-//            let birthdayString = dateFormatter.string(from: birthdayDate)
-//            labelString = labelString +  "...\(birthdayString)"
-//        }
-        
-        
         cell?.textLabel?.text = employee.name
         cell?.backgroundColor = UIColor.teal
         cell?.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
@@ -72,3 +58,16 @@ extension EmployeesController {
         return sectionLabel
     }
 }
+
+
+
+/*
+ var labelString = "\(employee.name ?? "")...taxId = \(employee.employeeinformation?.taxid ?? "")"
+ 
+ if let birthdayDate = employee.employeeinformation?.birthday {
+ let dateFormatter = DateFormatter()
+ dateFormatter.dateFormat = "MMM dd, yyyy"
+ let birthdayString = dateFormatter.string(from: birthdayDate)
+ labelString = labelString +  "...\(birthdayString)"
+ }
+ */
