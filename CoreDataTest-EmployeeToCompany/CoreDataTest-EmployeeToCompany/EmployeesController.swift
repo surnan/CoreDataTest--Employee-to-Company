@@ -59,7 +59,6 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
             })
 
         allEmployees = [shortNameEmployees, mediumNameEmployees, longNameEmployees]
-        
         shortNameEmployees.forEach{print("Short = \($0.name ?? "")")}
         mediumNameEmployees.forEach{print("medium = \($0.name ?? "")")}
         longNameEmployees.forEach{print("long = \($0.name ?? "")")}
@@ -90,10 +89,4 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
         setupPlusButtonInNavBar(selector: #selector(handleAdd))
         fetchEmployees()
     }
-    
-    
-
-    //MARK:- 2D array stuff
-    
-
 }
