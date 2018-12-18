@@ -50,7 +50,7 @@ struct CoreDataManager {
     
     
     
-    func createEmployee(name: String, company: Company) -> (Employee?, Error?){
+    func createEmployee(name: String, birthdayDate: Date, company: Company) -> (Employee?, Error?){
         let context = persistentContainer.viewContext
         let employee = NSEntityDescription.insertNewObject(forEntityName: "Employee", into: context) as! Employee
         
@@ -64,6 +64,7 @@ struct CoreDataManager {
         let employeeInformation = NSEntityDescription.insertNewObject(forEntityName: "EmployeeInformation", into: context) as! EmployeeInformation
 //        employeeInformation.setValue("456", forKey: "taxId")  <--- always works
         employeeInformation.taxid = "456"       //<-- works because of casting above--> 'as! EmployeeInformation'
+        employeeInformation.birthday = birthdayDate
         
         employee.employeeinformation = employeeInformation  //OOOOOOPSIE  //To assign the data back to CoreData
         

@@ -15,7 +15,7 @@ class CreateEmployeeController:UIViewController {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Name"
+        label.text = "Name:"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -27,18 +27,44 @@ class CreateEmployeeController:UIViewController {
         return textField
     }()
     
+    let birthdayLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Birthday:"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let birthdayTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "MM/dd/yyyy"
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
     
     private func setupUI(){
+        let blueView = setupLightBlueBackgroundView(height: 150)
+        [nameLabel, nameTextField, birthdayLabel, birthdayTextField].forEach{blueView.addSubview($0)}
+        
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
             nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             nameLabel.widthAnchor.constraint(equalToConstant: 100),
             nameLabel.heightAnchor.constraint(equalToConstant: 50),
-
+            
             nameTextField.topAnchor.constraint(equalTo: nameLabel.topAnchor),
             nameTextField.bottomAnchor.constraint(equalTo: nameLabel.bottomAnchor),
             nameTextField.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 10),
             nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            birthdayLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
+            birthdayLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            birthdayLabel.widthAnchor.constraint(equalTo: nameLabel.widthAnchor),
+            birthdayLabel.heightAnchor.constraint(equalTo: nameLabel.heightAnchor),
+            
+            birthdayTextField.topAnchor.constraint(equalTo: birthdayLabel.topAnchor),
+            birthdayTextField.bottomAnchor.constraint(equalTo: birthdayLabel.bottomAnchor),
+            birthdayTextField.leadingAnchor.constraint(equalTo: birthdayLabel.trailingAnchor, constant: 10),
+            birthdayTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             ])
     }
     
@@ -47,23 +73,36 @@ class CreateEmployeeController:UIViewController {
         navigationItem.title = "Create Employee"
         view.backgroundColor = UIColor.yellow
         setupCancelButtonInNavBar()
-        let blueView = setupLightBlueBackgroundView(height: 200)
-        [nameLabel, nameTextField].forEach{blueView.addSubview($0)}
         setupUI()
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(handleSaveEmployee))
-        
     }
     
     @objc private func handleSaveEmployee(){
-
+        
         var currentEmployee: Employee?
         var currentError: Error?
-
-        guard let name = nameTextField.text, let currentCompany = company  else {return}
         
         
-        (currentEmployee, currentError) = CoreDataManager.shared.createEmployee(name: name, company: currentCompany)
+        guard let name = nameTextField.text, let currentCompany = company, let birthdayText = birthdayTextField.text  else {return}
+        
+        
+        if birthdayText.isEmpty {
+            addAction(title: "Missing Entry", message: "Please enter a birthday")
+        }
+        
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        
+//        let birthdayDate = dateFormatter.date(from: birthdayText) ?? Date()
+        guard let birthdayDate = dateFormatter.date(from: birthdayText) else {
+            addAction(title: "Invalid Entry", message: "Please enter date with format: MM/dd/yyyy")
+            return
+        }
+        
+        
+        
+        (currentEmployee, currentError) = CoreDataManager.shared.createEmployee(name: name, birthdayDate: birthdayDate, company: currentCompany)
         
         if let error = currentError {
             print("Error saving employee: \(error)")
@@ -71,7 +110,18 @@ class CreateEmployeeController:UIViewController {
         } else if let employee = currentEmployee {
             dismiss(animated: true, completion: {
                 self.delegate?.didAddEmployee(employee: employee)
-                })
+            })
         }
     }
+    
+    
+    
+    private func addAction(title: String, message: String){
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+        return
+    }
+    
+    
 }
