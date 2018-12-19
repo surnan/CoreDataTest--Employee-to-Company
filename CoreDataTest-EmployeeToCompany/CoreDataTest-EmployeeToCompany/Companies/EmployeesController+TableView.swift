@@ -35,6 +35,27 @@ extension EmployeesController {
         return allEmployees.count
     }
     
+    //UIContextualAction
+
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+//        let temp = UISwipeActionsConfiguration(actions: UIContextualAction(style: .normal  , title: "Delete", handler: #selector(handleSwipeAction)))
+        
+        let temp = UIContextualAction(style: .normal, title: "My_Title") { (_, _, _) in
+            print("Swipe Measured")
+            
+            
+            
+            
+        }
+        
+        temp.image = #imageLiteral(resourceName: "plus")
+        temp.backgroundColor = UIColor.red
+        
+        return UISwipeActionsConfiguration(actions: [temp])
+    }
+
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var text = ""
         switch section {

@@ -15,6 +15,10 @@ protocol CreateEmployeeControllerDelegate {
 
 
 class EmployeesController: UITableViewController, CreateEmployeeControllerDelegate {
+    func didDeleteEmployee(employee: Employee) {
+        print("deleting \(employee.name ?? "")")
+    }
+    
     func didAddEmployee(employee: Employee) {
         employees.append(employee)
         
