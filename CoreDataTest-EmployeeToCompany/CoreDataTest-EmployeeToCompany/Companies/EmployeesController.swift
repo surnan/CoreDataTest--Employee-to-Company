@@ -21,6 +21,7 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
     var allEmployees =  [[Employee]]()
     
     let shortNameMaxLength = 4
+    let mediumNameMinLength = 5
     let mediumNameMaxLength = 6
     
     func didAddEmployee(employee: Employee) {
@@ -30,7 +31,7 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
         switch nameLength {
         case let z where z <= shortNameMaxLength:       //shortNameEmployees
             section = 0
-        case 5...6:                                     //mediumNameEmployees
+        case mediumNameMinLength...mediumNameMaxLength:                                     //mediumNameEmployees
             section = 1
         case let z where z > mediumNameMaxLength:       //longNameEmployees
             section = 2
@@ -46,6 +47,36 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
     private func fetchEmployees(){
         guard let companyEmployees = company?.employees?.allObjects as? [Employee] else {return}
         allEmployees = sortAllEmployees(companyEmployees: companyEmployees)
+    }
+    
+    func sortAllEmployees(companyEmployees: [Employee]) -> [[Employee]] {
+        var dummyReturn = [[Employee]]()
+        enum allCompanyEnum: Int {
+            case shortNameMaxLength = 0
+            case mediumNameMaxLength
+            case longNameMaxLength
+        }
+        
+        var shortNameEmployees = [Employee]()
+        var mediumNameEmployees = [Employee]()
+        var longNameEmployees = [Employee]()
+        
+        companyEmployees.forEach { (employee) in
+            guard let nameLength = employee.name?.count else {return}
+            switch nameLength {
+            case let z where z < shortNameMaxLength:
+                shortNameEmployees.append(employee)
+            case mediumNameMinLength...mediumNameMaxLength :
+                mediumNameEmployees.append(employee)
+            case let z where z > mediumNameMaxLength:
+                longNameEmployees.append(employee)
+            default:
+                print("INVALID Section")
+                return
+            }
+        }
+        dummyReturn = [shortNameEmployees, mediumNameEmployees, longNameEmployees]
+        return  dummyReturn
     }
     
     @objc private func handleAdd(){

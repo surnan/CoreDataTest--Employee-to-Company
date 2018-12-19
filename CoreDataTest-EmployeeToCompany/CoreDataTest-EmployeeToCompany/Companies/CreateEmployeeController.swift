@@ -41,6 +41,17 @@ class CreateEmployeeController:UIViewController {
         return textField
     }()
     
+    let rankSegment: UISegmentedControl = {
+        let segment = UISegmentedControl()
+        
+        let items = ["Exectuive", "Manager", "Staff"]
+        
+        
+        segment.translatesAutoresizingMaskIntoConstraints = false
+        return segment
+    }()
+    
+    
     private func setupUI(){
         let blueView = setupLightBlueBackgroundView(height: 150)
         [nameLabel, nameTextField, birthdayLabel, birthdayTextField].forEach{blueView.addSubview($0)}
