@@ -15,88 +15,40 @@ protocol CreateEmployeeControllerDelegate {
 
 
 class EmployeesController: UITableViewController, CreateEmployeeControllerDelegate {
-    func didDeleteEmployee(employee: Employee) {
-        print("deleting \(employee.name ?? "")")
-    }
-    
-    func didAddEmployee(employee: Employee) {
-        employees.append(employee)
-        
-        
-        shortNameEmployees = employees.filter({ (employee) -> Bool in
-            if (employee.name?.count)! < 5 {
-                return true
-            }
-            return false
-        })
-        
-        mediumNameEmployees = employees.filter({ (employee) -> Bool in
-            if (employee.name?.count)! >= 5  &&   (employee.name?.count)! <= 6{
-                return true
-            }
-            return false
-        })
-        
-        longNameEmployees = employees.filter({ (employee) -> Bool in
-            if (employee.name?.count)! > 6 {
-                return true
-            }
-            return false
-        })
-        
-        allEmployees = [shortNameEmployees, mediumNameEmployees, longNameEmployees]
-        tableView.reloadData()
-//        let insertIndexPath = IndexPath(row: employees.count - 1, section: 0)
-//        tableView.insertRows(at: [insertIndexPath], with: .left)
-    }
-
     
     var company: Company?
-    var employees = [Employee]()
     let cellID = "asdfasdfasdf"
     var allEmployees =  [[Employee]]()
-    var shortNameEmployees = [Employee]()
-    var mediumNameEmployees = [Employee]()
-    var longNameEmployees = [Employee]()
     
+    let shortNameMaxLength = 4
+    let mediumNameMaxLength = 6
+    
+    func didAddEmployee(employee: Employee) {
+        guard let nameLength = employee.name?.count else {return}
+        var section = 0
+        //https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html
+        switch nameLength {
+        case let z where z <= shortNameMaxLength:       //shortNameEmployees
+            section = 0
+        case 5...6:                                     //mediumNameEmployees
+            section = 1
+        case let z where z > mediumNameMaxLength:       //longNameEmployees
+            section = 2
+        default:
+            print("something bad happened here")
+            return
+        }
+        allEmployees[section].append(employee)
+        let destIndexPath = IndexPath(row: allEmployees[section].count - 1, section: section)
+        tableView.insertRows(at: [destIndexPath], with: .left)
+    }
     
     private func fetchEmployees(){
         guard let companyEmployees = company?.employees?.allObjects as? [Employee] else {return}
-        //employees = company?.employees //NSSet vs [Employee]
-        employees = companyEmployees
-
-            shortNameEmployees = companyEmployees.filter({ (employee) -> Bool in
-                if (employee.name?.count)! < 5 {
-                    return true
-                }
-                return false
-            })
-        
-            mediumNameEmployees = companyEmployees.filter({ (employee) -> Bool in
-                if (employee.name?.count)! >= 5  &&   (employee.name?.count)! <= 6{
-                    return true
-                }
-                return false
-            })
-        
-            longNameEmployees = companyEmployees.filter({ (employee) -> Bool in
-                if (employee.name?.count)! > 6 {
-                    return true
-                }
-                return false
-            })
-
-        allEmployees = [shortNameEmployees, mediumNameEmployees, longNameEmployees]
-        shortNameEmployees.forEach{print("Short = \($0.name ?? "")")}
-        mediumNameEmployees.forEach{print("medium = \($0.name ?? "")")}
-        longNameEmployees.forEach{print("long = \($0.name ?? "")")}
+        allEmployees = sortAllEmployees(companyEmployees: companyEmployees)
     }
     
-    
-
     @objc private func handleAdd(){
-        print("ADD EMPLOYEE")
-        
         let newVC = CreateEmployeeController()
         newVC.delegate = self
         newVC.company = company

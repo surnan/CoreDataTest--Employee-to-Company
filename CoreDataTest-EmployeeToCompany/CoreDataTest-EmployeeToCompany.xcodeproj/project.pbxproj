@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		84802A5121C9B72600F5A129 /* EmployeesController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84802A5021C9B72600F5A129 /* EmployeesController+TableView.swift */; };
+		84802A5421CA70AC00F5A129 /* TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84802A5321CA70AC00F5A129 /* TEST.swift */; };
 		849F6CA721C459460049B229 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CA621C459460049B229 /* AppDelegate.swift */; };
 		849F6CA921C459460049B229 /* CompaniesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F6CA821C459460049B229 /* CompaniesController.swift */; };
 		849F6CAC21C459460049B229 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 849F6CAA21C459460049B229 /* Main.storyboard */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		84802A5021C9B72600F5A129 /* EmployeesController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmployeesController+TableView.swift"; sourceTree = "<group>"; };
+		84802A5321CA70AC00F5A129 /* TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TEST.swift; sourceTree = "<group>"; };
 		849F6CA321C459460049B229 /* CoreDataTest-EmployeeToCompany.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CoreDataTest-EmployeeToCompany.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		849F6CA621C459460049B229 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		849F6CA821C459460049B229 /* CompaniesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompaniesController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				84802A5021C9B72600F5A129 /* EmployeesController+TableView.swift */,
 				849F6CF921C808240049B229 /* EmployeesController.swift */,
 				84FF0D3021C80CBC00DB5A25 /* CreateEmployeeController.swift */,
+				84802A5321CA70AC00F5A129 /* TEST.swift */,
 			);
 			name = Employee;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				849F6CC621C573AF0049B229 /* CoreDataFile.xcdatamodeld in Sources */,
 				84802A5121C9B72600F5A129 /* EmployeesController+TableView.swift in Sources */,
 				849F6CA721C459460049B229 /* AppDelegate.swift in Sources */,
+				84802A5421CA70AC00F5A129 /* TEST.swift in Sources */,
 				849F6CC821C5889A0049B229 /* CoreDataManager.swift in Sources */,
 				849F6CC321C544F00049B229 /* CreateCompanyController.swift in Sources */,
 			);

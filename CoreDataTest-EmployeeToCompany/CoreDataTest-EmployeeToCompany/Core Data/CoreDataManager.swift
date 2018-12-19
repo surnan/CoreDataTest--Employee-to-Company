@@ -53,22 +53,13 @@ struct CoreDataManager {
     func createEmployee(name: String, birthdayDate: Date, company: Company) -> (Employee?, Error?){
         let context = persistentContainer.viewContext
         let employee = NSEntityDescription.insertNewObject(forEntityName: "Employee", into: context) as! Employee
-        
-        
         employee.company = company
-        
-        
-        
         employee.setValue(name, forKey: "name")
-        
         let employeeInformation = NSEntityDescription.insertNewObject(forEntityName: "EmployeeInformation", into: context) as! EmployeeInformation
 //        employeeInformation.setValue("456", forKey: "taxId")  <--- always works
         employeeInformation.taxid = "456"       //<-- works because of casting above--> 'as! EmployeeInformation'
         employeeInformation.birthday = birthdayDate
-        
         employee.employeeinformation = employeeInformation  //OOOOOOPSIE  //To assign the data back to CoreData
-        
-        
         do {
             try context.save()
             return (employee , nil)
@@ -79,11 +70,15 @@ struct CoreDataManager {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
+    func deleteEmployee(employee: Employee) -> Bool {
+        let context = persistentContainer.viewContext
+        context.delete(employee)        
+        do {
+            try context.save()
+            return true
+        } catch let deleteEmployeeErr{
+            print("Unable to delete employee \(deleteEmployeeErr)")
+            return false
+        }
+    }
 }

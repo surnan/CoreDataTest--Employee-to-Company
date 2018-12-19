@@ -35,46 +35,26 @@ extension EmployeesController {
         return allEmployees.count
     }
     
-    //UIContextualAction
-
+    
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-//        let temp = UISwipeActionsConfiguration(actions: UIContextualAction(style: .normal  , title: "Delete", handler: #selector(handleSwipeAction)))
-        
+        //        let temp = UISwipeActionsConfiguration(actions: UIContextualAction(style: .normal  , title: "Delete", handler: #selector(handleSwipeAction)))
+        _ = CoreDataManager.shared.deleteEmployee(employee: allEmployees[indexPath.section][indexPath.row])
         let temp = UIContextualAction(style: .normal, title: "My_Title") { (_, _, _) in
             print("Swipe Measured")
-
             self.allEmployees[indexPath.section].remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .left)
-            
-            
-            
-            
         }
-        
-        temp.image = #imageLiteral(resourceName: "plus")
+        temp.image = #imageLiteral(resourceName: "delete")
         temp.backgroundColor = UIColor.red
-        
         return UISwipeActionsConfiguration(actions: [temp])
     }
 
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var text = ""
-        switch section {
-        case 0:
-            text = "Short Names"
-        case 1:
-            text = "Medium Names"
-        case 2:
-            text = "Long Names"
-        default:
-            print("BAD THINGS HAPPENING")
-        }
-        
+        var titles = ["Short Names", "Medium Names", "Long Names"]
         let sectionLabel: UILabel = {
             let label = UILabel()
-            label.text = text
+            label.text = titles[section]
             label.backgroundColor = UIColor.lightBlue
             label.font = UIFont.boldSystemFont(ofSize: 18)
             return label
