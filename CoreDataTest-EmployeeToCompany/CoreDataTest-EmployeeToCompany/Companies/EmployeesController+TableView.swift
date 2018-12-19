@@ -43,6 +43,9 @@ extension EmployeesController {
         
         let temp = UIContextualAction(style: .normal, title: "My_Title") { (_, _, _) in
             print("Swipe Measured")
+
+            self.allEmployees[indexPath.section].remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
             
             
             
