@@ -41,20 +41,18 @@ class CreateEmployeeController:UIViewController {
         return textField
     }()
     
-    let rankSegment: UISegmentedControl = {
-        let segment = UISegmentedControl()
-        
-        let items = ["Exectuive", "Manager", "Staff"]
-        
-        
-        segment.translatesAutoresizingMaskIntoConstraints = false
-        return segment
+    let employeeTypeSegmentedControl: UISegmentedControl = {
+        let types = ["Executive", "Manager", "Staff"]
+        let sc = UISegmentedControl(items: types)
+        sc.tintColor = UIColor.darkBlue
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.selectedSegmentIndex = 2
+        return sc
     }()
     
-    
     private func setupUI(){
-        let blueView = setupLightBlueBackgroundView(height: 150)
-        [nameLabel, nameTextField, birthdayLabel, birthdayTextField].forEach{blueView.addSubview($0)}
+        let blueView = setupLightBlueBackgroundView(height: 160)
+        [nameLabel, nameTextField, birthdayLabel, birthdayTextField, employeeTypeSegmentedControl].forEach{blueView.addSubview($0)}
         
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
@@ -76,6 +74,10 @@ class CreateEmployeeController:UIViewController {
             birthdayTextField.bottomAnchor.constraint(equalTo: birthdayLabel.bottomAnchor),
             birthdayTextField.leadingAnchor.constraint(equalTo: birthdayLabel.trailingAnchor, constant: 10),
             birthdayTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            employeeTypeSegmentedControl.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 5),
+            employeeTypeSegmentedControl.widthAnchor.constraint(equalToConstant: 275),
+            employeeTypeSegmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             ])
     }
     
@@ -106,7 +108,11 @@ class CreateEmployeeController:UIViewController {
             return
         }
         
-        (currentEmployee, currentError) = CoreDataManager.shared.createEmployee(name: name, birthdayDate: birthdayDate, company: currentCompany)
+        
+        guard let employeeType = employeeTypeSegmentedControl.titleForSegment(at: employeeTypeSegmentedControl.selectedSegmentIndex) else {return}
+//        print("\n\n==  Employee Type = \(employeeType)")
+        
+        (currentEmployee, currentError) = CoreDataManager.shared.createEmployee(name: name, type: employeeType, birthdayDate: birthdayDate, company: currentCompany)
         
         if let error = currentError {
             print("Error saving employee: \(error)")
@@ -117,8 +123,6 @@ class CreateEmployeeController:UIViewController {
             })
         }
     }
-    
-    
     
     private func addAction(title: String, message: String){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
