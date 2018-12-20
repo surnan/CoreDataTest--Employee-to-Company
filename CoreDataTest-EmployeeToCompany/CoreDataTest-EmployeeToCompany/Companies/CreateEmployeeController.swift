@@ -41,12 +41,24 @@ class CreateEmployeeController:UIViewController {
         return textField
     }()
     
+    
+    enum EmployeeType2: String {
+        case Executive
+        case SeniorManagement = "Senior Management"
+        case Staff
+    }
+
+    
     let employeeTypeSegmentedControl: UISegmentedControl = {
-        let types = ["Executive", "Manager", "Staff"]
+        let types = [
+            EmployeeType.Executive.rawValue,
+            EmployeeType.SeniorManagement.rawValue,
+            EmployeeType.Staff.rawValue
+        ]
         let sc = UISegmentedControl(items: types)
         sc.tintColor = UIColor.darkBlue
         sc.translatesAutoresizingMaskIntoConstraints = false
-        sc.selectedSegmentIndex = 2
+        sc.selectedSegmentIndex = 0
         return sc
     }()
     
@@ -76,8 +88,8 @@ class CreateEmployeeController:UIViewController {
             birthdayTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             employeeTypeSegmentedControl.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 5),
-            employeeTypeSegmentedControl.widthAnchor.constraint(equalToConstant: 275),
-            employeeTypeSegmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            employeeTypeSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            employeeTypeSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             ])
     }
     

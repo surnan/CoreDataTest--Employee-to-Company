@@ -9,16 +9,13 @@
 import UIKit
 
 extension EmployeesController {
-    
     //MARK:- TableView
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        return employees.count
         return allEmployees[section].count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID)
-        //        let employee = employees[indexPath.item]
         let employee = allEmployees[indexPath.section][indexPath.row]
         cell?.textLabel?.text = employee.name
         cell?.backgroundColor = UIColor.teal
@@ -37,7 +34,7 @@ extension EmployeesController {
     
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        //        let temp = UISwipeActionsConfiguration(actions: UIContextualAction(style: .normal  , title: "Delete", handler: #selector(handleSwipeAction)))
+        // let temp = UISwipeActionsConfiguration(actions: UIContextualAction(style: .normal  , title: "Delete", handler: #selector(handleSwipeAction)))
         _ = CoreDataManager.shared.deleteEmployee(employee: allEmployees[indexPath.section][indexPath.row])
         let temp = UIContextualAction(style: .normal, title: "My_Title") { (_, _, _) in
             print("Swipe Measured")
@@ -48,13 +45,20 @@ extension EmployeesController {
         temp.backgroundColor = UIColor.red
         return UISwipeActionsConfiguration(actions: [temp])
     }
-
+    
+//    enum EmployeeType: String {
+//        case Executive
+//        case SeniorManagement = "Senior Management"
+//        case Staff
+//    }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var titles = ["Short Names", "Medium Names", "Long Names"]
+        
+        let title = employeeTypes[section]
+        
         let sectionLabel: UILabel = {
             let label = UILabel()
-            label.text = titles[section]
+            label.text = title
             label.backgroundColor = UIColor.lightBlue
             label.font = UIFont.boldSystemFont(ofSize: 18)
             return label
